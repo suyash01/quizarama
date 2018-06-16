@@ -13,7 +13,11 @@ const QuestionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    options: [String]
+    options: [String],
+    created: {
+        type: Date,
+        default: Date.now()
+    }
 });
 
 module.exports = mongoose.model('Question', QuestionSchema);
