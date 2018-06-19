@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -19,10 +19,23 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    quizes: [
+        {
+            quiz: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: "Quiz"
+            },
+            score: {
+                type: Number,
+                default: 0
+            }
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now()
     }
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);

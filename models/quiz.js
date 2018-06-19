@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const QuizSchema = new mongoose.Schema({
     title: {
@@ -18,11 +18,28 @@ const QuizSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    users: [String],
+    negative: {
+        type: Number,
+        default: 0
+    },
+    users: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+                required: true
+            },
+            started: {
+                type: Boolean,
+                default: false
+            },
+            start: Date
+        }
+    ],
     created: {
         type: Date,
         default: Date.now()
     }
 });
 
-module.exports = mongoose.model('Quiz', QuizSchema);
+module.exports = mongoose.model("Quiz", QuizSchema);
