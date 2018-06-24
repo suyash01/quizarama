@@ -3,6 +3,7 @@ const path = require("path");
 const morgan = require("morgan");
 const env = require("dotenv");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 // requiring all routes
 const indexRouter = require("./routes/index");
@@ -22,6 +23,7 @@ mongoose.connect(process.env.DBURL).then(
     }
 );
 
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -43,7 +45,7 @@ app.use((error, req, res, next) => {
     res.status(error.status || 500);
     res.json({
         status: 0,
-        error: error.message
+        error: "Internal server error"
     });
 });
 

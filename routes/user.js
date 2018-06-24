@@ -34,7 +34,8 @@ router.post("/register", (req, res) => {
 
     const errors = validationResult(req);
     if(errors.isEmpty()){
-
+        
+        res.status(200).json({success: 1, data: 'Registered'});
     }
     else{
         res.status(500).json({success: 0, error: "All fields are required"});
