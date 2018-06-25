@@ -59,16 +59,6 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-snackbar right bottom
-      :timeout="timeout"
-      :color="color"
-      :multi-line="mode === 'multi-line'"
-      :vertical="mode === 'vertical'"
-      v-model="snackbar"
-    >
-      {{ text }}
-      <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
-    </v-snackbar>
   </div>
 </template>
 
@@ -107,13 +97,12 @@ export default {
       ],
       snackbar: false,
       color: '',
-      mode: '',
       timeout: 6000,
       text: ''
     }
   },
   methods: {
-    register() {
+    register: function() {
       const user = {
         name: this.name,
         uname: this.uname,
@@ -122,15 +111,20 @@ export default {
       }
       axios.post(process.env.VUE_APP_API_URL + '/user/register', user)
         .then(response => {
-          this.text = response.data.data;
-          this.color = 'success'
-          this.snackbar = true;
+          const data = {
+            text: response.data.data,
+            color: 'success'
+          }
+          this.$emit('show-snackbar', data);
+          this.$router.push('login');
         })
         .catch(error => {
           console.log(error);
-          this.text = 'Internal server error';
-          this.color = 'error'
-          this.snackbar = true;
+          const data = {
+            text: 'Internal server error',
+            color: 'error'
+          }
+          this.$emit('show-snackbar', data);
         });
     }
   }

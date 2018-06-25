@@ -21,11 +21,19 @@
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
-      <router-view/>
+      <router-view v-on:show-snackbar="showSnackbar"></router-view>
     </v-content>
     <v-footer app>
       <v-flex xs-12 text-xs-center>&copy;{{ new Date().getFullYear() }} - <strong>Suyash</strong></v-flex>
     </v-footer>
+    <v-snackbar right bottom
+      :timeout="timeout"
+      :color="color"
+      v-model="snackbar"
+    >
+      {{ text }}
+      <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -35,6 +43,10 @@ export default {
   name: 'App',
   data () {
     return {
+      snackbar: false,
+      color: '',
+      timeout: 6000,
+      text: '',
       drawer: false,
       items: [
         {icon: 'home', name: 'Home', link: '/'},
@@ -43,6 +55,13 @@ export default {
         {icon: '', name: 'About', link: '/about'}
       ],
       title: 'Quizarama'
+    }
+  },
+  methods: {
+    showSnackbar: function(data){
+      this.text = data.text;
+      this.color = data.color;
+      this.snackbar = true;
     }
   }
 }

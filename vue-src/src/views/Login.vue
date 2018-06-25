@@ -25,7 +25,13 @@
             </v-card-title>
             <v-card-actions>
               <div class="text-xs-center" style="width: 100%">
-                <v-btn flat color="green" ripple>Login</v-btn>
+                <v-btn large outline ripple 
+                  color="primary" 
+                  @click="login" 
+                  :disabled="!valid"
+                >
+                  Login
+                </v-btn>
               </div>
             </v-card-actions>
           </v-card>
@@ -36,20 +42,49 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  data: () => ({
-    valid: false,
-    uname: '',
-    unameRules: [
-      v => !!v || 'Username is required'
-    ],
-    pass: '',
-    icon: true,
-    passRules: [
-      v => !!v || 'Password is required',
-      v => v.length >= 6 || 'Password must be at least 6 characters'
-    ]
-  })
+  data: function(){
+    return {
+      valid: false,
+      uname: '',
+      unameRules: [
+        v => !!v || 'Username is required'
+      ],
+      pass: '',
+      icon: true,
+      passRules: [
+        v => !!v || 'Password is required',
+        v => v.length >= 6 || 'Password must be at least 6 characters'
+      ]
+    }
+  },
+  methods: {
+    login: function(){
+      const user = {
+        uname: this.uname,
+        pass: this.pass
+      }
+      axios.post('/user/login', user)
+        .then(response => {
+          const data = {
+            text: response.data.data,
+            color: 'success'
+          }
+          this.$emit('show-snackbar', data);
+          this.$router.push('quiz');
+        })
+        .catch(error => {
+          console.log(error);
+          const data = {
+            text: 'Internal server error',
+            color: 'error'
+          }
+          this.$emit('show-snackbar', data);
+        });
+    }
+  }
 };
 </script>
 
