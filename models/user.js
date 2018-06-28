@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    access: {
+        type: Number,
+        default: 3
+    },
     quizes: [
         {
             quiz: {

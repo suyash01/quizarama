@@ -67,22 +67,22 @@ export default {
         pass: this.pass
       }
       axios.post('/user/login', user)
-        .then(response => {
-          const data = {
-            text: response.data.data,
-            color: 'success'
-          }
-          this.$emit('show-snackbar', data);
-          this.$router.push('quiz');
-        })
-        .catch(error => {
-          console.log(error);
-          const data = {
-            text: 'Internal server error',
-            color: 'error'
-          }
-          this.$emit('show-snackbar', data);
-        });
+      .then(response => {
+        const data = {
+          text: response.data.data,
+          color: 'success'
+        }
+        this.$emit('show-snackbar', data);
+        this.$router.push('quiz');
+      })
+      .catch(error => {
+        console.log(error);
+        const data = {
+          text: 'Internal server error',
+          color: 'error'
+        }
+        this.$emit('show-snackbar', data);
+      });
     }
   }
 };
